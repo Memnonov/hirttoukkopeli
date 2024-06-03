@@ -1,4 +1,5 @@
 #include "game.hpp"
+#include "ui.hpp"
 #include <iostream>
 
 int main() {
@@ -9,18 +10,11 @@ int main() {
   std::cout << "Paina jottai >" << '\n';
   std::cin.get();
 
-  Game game; // using the default constructor
-  game.refresh();
-  std::cout << "Sana on: " << game.getWord() << '\n';
-
-  std::cout << "Arvauksia\tmax: " << game.getGuessesMax()
-            << " | nyt: " << game.getGuessesCurrent() << '\n';
-
+  Game game{"testi"};
+  Ui ui{game};
   game.setGuessesMax(666);
   game.setGuessesCurrent(6666);
-
-  std::cout << "Arvauksia\tmax: " << game.getGuessesMax()
-            << " | nyt: " << game.getGuessesCurrent() << '\n';
+  ui.update();
 
   return 0;
 }
