@@ -11,7 +11,7 @@ int main() {
   std::cin.get();
 
   Game game{"testi"};
-  Ui ui{game};
+  HangmanUi ui{game};
   game.setGuessesMax(666);
   game.setGuessesCurrent(6666);
   ui.update();

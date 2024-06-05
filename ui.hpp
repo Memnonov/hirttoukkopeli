@@ -3,9 +3,9 @@
 
 #include "game.hpp"
 
-class Ui {
+class HangmanUi {
 public:
-  explicit Ui(Game &game) : game{game} {};
+  explicit HangmanUi(Game &game) : game{game} {};
   void update() const;
 
 private:
