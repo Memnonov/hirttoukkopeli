@@ -1,4 +1,4 @@
-#include "ui.hpp"
+#include "hangmanui.hpp"
 #include <iostream>
 
 void HangmanUi::update() const {

@@ -12,6 +12,13 @@ public:
   explicit Game(std::string s) : word{s} {
     hideWord();
   }; // construct a game from a word (string)
+  
+  enum class GuessResult {
+    RIGHT,
+    WRONG,
+    ALREADY_GUESSED,
+    INVALID
+  };
 
   const std::string &getWord() const { return word; }
   const std::string& getHiddenWord() const { return wordHidden; }
@@ -26,7 +33,7 @@ public:
     guessesCurrent = (n > guessesMax) ? guessesMax : n;
   }
 
-  bool guessLetter(char c);
+  GuessResult guessLetter(char c);
 
 private:
   std::string word;
@@ -35,6 +42,8 @@ private:
   int guessesCurrent{0};
 
   void hideWord();
+
+  void revealLetter(char c);
 };
 
 #endif // !GAME_HPP

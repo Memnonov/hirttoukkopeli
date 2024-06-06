@@ -1,5 +1,5 @@
 #include "game.hpp"
-#include "ui.hpp"
+#include "hangmanui.hpp"
 
 int main() {
   Game game{"testi"};

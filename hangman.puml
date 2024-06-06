@@ -1,0 +1,36 @@
+@startuml
+
+class Game {
+  - std::string word
+  - std::string wordHidden
+  - hideWord()
+  + {enum} status
+  - updateStatus()
+  + getStatus()
+  - int guessesMax
+  - int guessesCurrent
+  + getGuessesMax()
+  + setGuessesMax()
+  + getGuessesCurrent()
+  + setGuessesCurrent()
+  + {enum} GuessResult
+  + guessLetter()
+  - revealLetter()
+}
+
+class HangmanUi {
+  - Game game
+  + start()
+  - update()
+  - clear()
+  - getInput()
+}
+
+HangmanUi o-right- Game
+
+class WordList {
+  - std::vector words
+  + getRandomWord()
+}
+
+@enduml

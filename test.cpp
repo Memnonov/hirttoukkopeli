@@ -1,5 +1,5 @@
 #include "game.hpp"
-#include "ui.hpp"
+#include "hangmanui.hpp"
 #include <iostream>
 
 int main() {
@@ -14,11 +14,8 @@ int main() {
   HangmanUi ui{game};
   game.setGuessesMax(666);
   game.setGuessesCurrent(6666);
+  game.guessLetter('a');
   ui.update();
-
-  if (game.guessLetter('a')) {
-    std::cout << "Arvasit oikein!\n";
-  }
 
   return 0;
 }
