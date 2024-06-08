@@ -2,6 +2,7 @@
 #define GAME_HPP
 
 #include <string>
+#include <vector>
 
 void printTest();
 
@@ -15,7 +16,7 @@ public:
 
   enum class GameStatus { RUNNING, WIN, LOSE };
 
-  enum class GuessResult { RIGHT, WRONG, ALREADY_GUESSED, INVALID, GAME_OVER };
+  enum class GuessResult { RIGHT, WRONG, ALREADY_GUESSED, GAME_OVER };
 
   const std::string &getWord() const { return word; }
   const std::string &getHiddenWord() const { return wordHidden; }
@@ -33,11 +34,14 @@ public:
 
   GuessResult guessLetter(char c);
 
+  const std::vector<char>& getGuessedLetters() const { return guessedLetters; }
+
 private:
   std::string word;
   std::string wordHidden;
   int guessesMax{6};
-  int guessesCurrent{0};
+  int guessesCurrent{6};
+  std::vector<char> guessedLetters;
   GameStatus status = GameStatus::RUNNING;
 
   void updateStatus();

@@ -1,4 +1,5 @@
 #include "game.hpp"
+#include <algorithm>
 #include <cstddef>
 #include <string>
 
@@ -16,11 +17,23 @@ void Game::updateStatus() {
 }
 
 Game::GuessResult Game::guessLetter(char c) {
+  if (status != Game::GameStatus::RUNNING) {
+    return Game::GuessResult::GAME_OVER;
+  }
+
+  if (std::find(guessedLetters.begin(), guessedLetters.end(), c) != guessedLetters.end()) {
+    return Game::GuessResult::ALREADY_GUESSED;
+  }
+
+  guessedLetters.push_back(c);
+
   if (word.find(c) != std::string::npos) {
     revealLetter(c);
     updateStatus();
     return Game::GuessResult::RIGHT;
   }
+  updateStatus();
+  --guessesCurrent;
   return Game::GuessResult::WRONG;
 }
 
