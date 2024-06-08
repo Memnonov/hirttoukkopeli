@@ -12,16 +12,13 @@ public:
   explicit Game(std::string s) : word{s} {
     hideWord();
   }; // construct a game from a word (string)
-  
-  enum class GuessResult {
-    RIGHT,
-    WRONG,
-    ALREADY_GUESSED,
-    INVALID
-  };
+
+  enum class GameStatus { RUNNING, WIN, LOSE };
+
+  enum class GuessResult { RIGHT, WRONG, ALREADY_GUESSED, INVALID, GAME_OVER };
 
   const std::string &getWord() const { return word; }
-  const std::string& getHiddenWord() const { return wordHidden; }
+  const std::string &getHiddenWord() const { return wordHidden; }
   int getGuessesMax() const { return guessesMax; }
   void setGuessesMax(int n) { guessesMax = (n > 0) ? n : 1; }
   int getGuessesCurrent() const { return guessesCurrent; }
@@ -32,6 +29,7 @@ public:
     }
     guessesCurrent = (n > guessesMax) ? guessesMax : n;
   }
+  GameStatus getStatus() const { return status; }
 
   GuessResult guessLetter(char c);
 
@@ -40,6 +38,9 @@ private:
   std::string wordHidden;
   int guessesMax{6};
   int guessesCurrent{0};
+  GameStatus status = GameStatus::RUNNING;
+
+  void updateStatus();
 
   void hideWord();
 
