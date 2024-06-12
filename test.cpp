@@ -2,25 +2,117 @@
 #include "hangmanui.hpp"
 #include <iostream>
 #include <string>
+#include <vector>
 
-void testGame();
-void testWord();
+std::string toString(Game::GameStatus);
+std::string toString(Game::GuessResult);
+void testUi();
+bool testGame(std::string word, std::string letters = "", bool result = true,
+              bool verbose = false);
 void testWin();
 void testLose();
 
 int main() {
-  testGame();
+  testUi();
   std::cin.get();
-  testWord();
-  std::cin.get();
-  testWin();
-  std::cin.get();
-  testLose();
+  std::vector<bool> results;
+  results.push_back(testGame("olut", "olut", true, true));
+  results.push_back(testGame("olut", "oolluutt", true, true));
+  results.push_back(testGame("olut", "kkalexsiii", false, true));
+  std::cout << "Tää niinku epäonnistuu tahallaa...\n";
+  results.push_back(testGame("olut", "kkalexsiii"));
+
+  int fail{0};
+  for (auto res : results) {
+    if (!res) {
+      fail++;
+    }
+  }
+
+  if (fail) {
+    std::cout << "Epäonnistuneita testejä! Läpi " << results.size() - fail
+              << '/' << results.size() << '\n';
+  } else {
+    std::cout << "Kaikki testit OK! (" << results.size() << " kpl)\n";
+  }
 
   return 0;
 }
 
-void testGame() {
+std::string toString(Game::GameStatus status) {
+  using Status = Game::GameStatus;
+  switch (status) {
+  case Status::RUNNING:
+    return "Running";
+  case Status::LOSE:
+    return "Lose";
+  case Status::WIN:
+    return "Win";
+  default:
+    return "Unkown";
+  }
+}
+
+std::string toString(Game::GuessResult guess) {
+  using Guess = Game::GuessResult;
+  switch (guess) {
+  case Guess::RIGHT:
+    return "Right";
+  case Guess::WRONG:
+    return "Wrong";
+  case Guess::ALREADY_GUESSED:
+    return "Already guessed";
+  case Guess::GAME_OVER:
+    return "Game Over";
+  default:
+    return "Unkown";
+  }
+}
+
+bool testGame(std::string word, std::string letters, bool result,
+              bool verbose) {
+  if (verbose)
+    std::cout << "Testataan sanalla: " << word << '\n';
+
+  Game game{word};
+  if (letters.empty()) {
+    letters = word;
+  }
+
+  for (auto c : letters) {
+    if (verbose) {
+      std::cout << "--> " << game.getHiddenWord()
+                << " | arvauksia jäljellä: " << game.getGuessesCurrent()
+                << '\n';
+    }
+    auto guess = game.guessLetter(c);
+    if (verbose) {
+      std::cout << "  arvataan: " << c << " | tulos: " << toString(guess)
+                << '\n';
+    }
+  }
+
+  if (verbose) {
+    std::cout << "  game result: " << toString(game.getStatus())
+              << " | expected: " << ((result) ? "Win" : "Lose") << '\n';
+  }
+  if (game.getStatus() == Game::GameStatus::RUNNING) {
+    std::cout << "  Game is still running!";
+    return false;
+  }
+  if (game.getStatus() == Game::GameStatus::WIN && result == true) {
+    std::cout << "  Testi OK!\n\n";
+    return true;
+  }
+  if (game.getStatus() == Game::GameStatus::LOSE && result == false) {
+    std::cout << "  Testi OK!\n\n";
+    return true;
+  }
+  std::cout << "  Testi epäonnistui!\n\n";
+  return false;
+}
+
+void testUi() {
   Game game{"testi"};
   HangmanUi ui{game};
   game.setGuessesMax(666);
@@ -28,68 +120,3 @@ void testGame() {
   game.guessLetter('a');
   ui.update();
 }
-
-void testWord() {
-  Game game;
-  std::cout << "Testataa vähä sanahommia: \n"
-            << "sana: " << game.getWord() << '\n';
-  game.guessLetter('d');
-  game.guessLetter('e');
-  game.guessLetter('f');
-  game.guessLetter('a');
-  game.guessLetter('u');
-  game.guessLetter('l');
-  game.guessLetter('t');
-  std::cout << "piilotettu sana: " << game.getHiddenWord() << '\n';
-};
-
-void testWin() {
-  std::string word = "olut";
-  Game game1(word);
-  std::cout << "--- Pitäisi voittaa peli! ---\n"
-            << "arvauksia jäljellä: " << game1.getGuessesCurrent() << '\n';
-  for (auto c : word) {
-    std::cout << "arvataan " << c << '\n';
-    game1.guessLetter(c);
-  }
-  std::cout << "piilotettu sana: " << game1.getHiddenWord()
-            << " | arvauksia jälj.: " << game1.getGuessesCurrent() << '\n';
-  std::string s;
-  s = (game1.getStatus() == Game::GameStatus::WIN) ? "win" : "lose";
-  std::cout << s << '\n';
-}
-
-void testLose() {
-  std::string word = "olut";
-  Game game1(word);
-  std::cout << "--- Pitäisi hävitä peli! ---\n"
-            << "arvauksia jäljellä: " << game1.getGuessesCurrent() << '\n';
-  Game::GuessResult ret;
-  for (char c = 'a'; c < 'z'; c++) {
-    std::cout << "arvataan: " << c << '\n';
-    ret = game1.guessLetter(c);
-
-    if (ret == Game::GuessResult::GAME_OVER) {
-      std::cout << "palautus GAME_OVER\n";
-      break;
-    }
-
-    if (ret == Game::GuessResult::WRONG) {
-      std::cout << "väärä arvaus\n";
-    }
-    if (ret == Game::GuessResult::ALREADY_GUESSED) {
-      std::cout << "kirjain on jo arvattu\n";
-    }
-    if (ret == Game::GuessResult::RIGHT) {
-      std::cout << "oikea arvaus\n";
-    }
-
-    std::cout << "arvauksia jäljellä: " << game1.getGuessesCurrent() << '\n';
-
-  }
-  std::cout << "piilotettu sana: " << game1.getHiddenWord()
-            << " | arvauksia jäljellä: " << game1.getGuessesCurrent() << '\n';
-  std::string s;
-  s = (game1.getStatus() == Game::GameStatus::WIN) ? "win" : "lose";
-  std::cout << s << '\n';
-};
