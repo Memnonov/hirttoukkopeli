@@ -13,12 +13,12 @@ void testWin();
 void testLose();
 
 int main() {
-  testUi();
-  std::cin.get();
+  // testUi();
+  // std::cin.get();
   std::vector<bool> results;
-  results.push_back(testGameEnd("olut", "olut", true, false));
-  results.push_back(testGameEnd("olut", "oolluutt", true, false));
-  results.push_back(testGameEnd("olut", "kkalexsiii", false, false));
+  results.push_back(testGameEnd("olut", "olut", true));
+  results.push_back(testGameEnd("olut", "oolluutt", true));
+  results.push_back(testGameEnd("olut", "kkalexsiii", false));
   // std::cout << "Tää niinku epäonnistuu tahallaa...\n";
   // results.push_back(testGameEnd("olut", "kkalexsiii"));
 
