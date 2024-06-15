@@ -118,5 +118,4 @@ void testUi() {
   game.setGuessesMax(666);
   game.setGuessesCurrent(6666);
   game.guessLetter('a');
-  ui.update();
 }

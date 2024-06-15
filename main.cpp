@@ -6,7 +6,6 @@ int main() {
   HangmanUi ui{game};
   game.setGuessesMax(666);
   game.setGuessesCurrent(6666);
-  ui.update();
 
   return 0;
 }
