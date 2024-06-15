@@ -7,7 +7,7 @@
 std::string toString(Game::GameStatus);
 std::string toString(Game::GuessResult);
 void testUi();
-bool testGame(std::string word, std::string letters = "", bool result = true,
+bool testGameEnd(std::string word, std::string letters = "", bool result = true,
               bool verbose = false);
 void testWin();
 void testLose();
@@ -16,11 +16,11 @@ int main() {
   testUi();
   std::cin.get();
   std::vector<bool> results;
-  results.push_back(testGame("olut", "olut", true, true));
-  results.push_back(testGame("olut", "oolluutt", true, true));
-  results.push_back(testGame("olut", "kkalexsiii", false, true));
-  std::cout << "Tää niinku epäonnistuu tahallaa...\n";
-  results.push_back(testGame("olut", "kkalexsiii"));
+  results.push_back(testGameEnd("olut", "olut", true, false));
+  results.push_back(testGameEnd("olut", "oolluutt", true, false));
+  results.push_back(testGameEnd("olut", "kkalexsiii", false, false));
+  // std::cout << "Tää niinku epäonnistuu tahallaa...\n";
+  // results.push_back(testGameEnd("olut", "kkalexsiii"));
 
   int fail{0};
   for (auto res : results) {
@@ -69,7 +69,7 @@ std::string toString(Game::GuessResult guess) {
   }
 }
 
-bool testGame(std::string word, std::string letters, bool result,
+bool testGameEnd(std::string word, std::string letters, bool result,
               bool verbose) {
   if (verbose)
     std::cout << "Testataan sanalla: " << word << '\n';
