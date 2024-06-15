@@ -97,18 +97,18 @@ bool testGameEnd(std::string word, std::string letters, bool result,
               << " | expected: " << ((result) ? "Win" : "Lose") << '\n';
   }
   if (game.getStatus() == Game::GameStatus::RUNNING) {
-    std::cout << "  Game is still running!";
+    std::cout << "  testGameEnd: Epäonnistui: Peli vielä käynnissä!\n\n";
     return false;
   }
   if (game.getStatus() == Game::GameStatus::WIN && result == true) {
-    std::cout << "  Testi OK!\n\n";
+    std::cout << "  testGameEnd: OK!\n\n";
     return true;
   }
   if (game.getStatus() == Game::GameStatus::LOSE && result == false) {
-    std::cout << "  Testi OK!\n\n";
+    std::cout << "  testGameEnd: OK!\n\n";
     return true;
   }
-  std::cout << "  Testi epäonnistui!\n\n";
+  std::cout << "  testGameEnd: Epäonnistui: väärä tulos!\n\n";
   return false;
 }
 
