@@ -1,5 +1,6 @@
 #include "game.hpp"
 #include <algorithm>
+#include <cctype>
 #include <cstddef>
 #include <iostream>
 #include <string>
@@ -18,6 +19,8 @@ void Game::updateStatus() {
 }
 
 Game::GuessResult Game::guessLetter(char c) {
+  c = (char) tolower(c);
+
   if (status != Game::GameStatus::RUNNING) {
     return Game::GuessResult::GAME_OVER;
   }
