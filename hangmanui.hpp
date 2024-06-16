@@ -21,16 +21,18 @@ class HangmanUi {
 public:
   explicit HangmanUi(Game &game) : game{game} {};
 
+  // For testing
   std::string wrongGuesses() const;
 
   void start();
 
-  void reset();
+  void reset(); // TODO: is this necessary?
 
-  char getPlayerInput();
 
 private:
   Game &game;
+
+  char getPlayerInput();
 
   std::vector<std::string> messages{START_MESSAGE};
 
